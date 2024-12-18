@@ -13,7 +13,6 @@ async function buscarCanal() {
         const data = await response.json();
         const canalesDiv = document.getElementById('canales');
         canalesDiv.innerHTML = '';
-        document.getElementById('videos').innerHTML = ''; // Limpiar videos al buscar nuevo canal
 
         if (data.items && data.items.length > 0) {
             data.items.forEach(canal => {
@@ -21,7 +20,7 @@ async function buscarCanal() {
                 canalElement.classList.add('canal-card');
                 canalElement.innerHTML = `
                     <h3>${canal.snippet.title}</h3>
-                    <button onclick="verVideos('${canal.id.channelId}')">Ver Videos</button>
+                    <button onclick="mostrarVideosDeCanal('${canal.id.channelId}')">Ver Videos</button>
                 `;
                 canalesDiv.appendChild(canalElement);
             });
@@ -29,14 +28,14 @@ async function buscarCanal() {
             document.getElementById('error').innerText = 'No se encontraron canales.';
         }
     } catch (error) {
-        console.error('Error al buscar canales:', error);
+        console.error('Error al obtener canales:', error);
         document.getElementById('error').innerText = 'Error al cargar canales. Inténtalo más tarde.';
     }
 }
 
-async function verVideos(channelId) {
+async function mostrarVideosDeCanal(canalId) {
     const apiKey = await obtenerApiKey();
-    const url = `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet,id&order=date&maxResults=10`;
+    const url = `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${canalId}&part=snippet,id&order=date&maxResults=10`;
 
     try {
         const response = await fetch(url);
@@ -61,4 +60,25 @@ async function verVideos(channelId) {
         console.error('Error al obtener videos:', error);
         document.getElementById('error').innerText = 'Error al cargar videos. Inténtalo más tarde.';
     }
+}
+
+function toggleMenu() {
+    const menu = document.getElementById('menu');
+    if (menu.style.left === '0px') {
+        menu.style.left = '-300px'; // Ocultar menú
+    } else {
+        menu.style.left = '0px'; // Mostrar menú
+    }
+}
+
+function mostrarVideos() {
+    document.getElementById('search-container').style.display = 'block';
+    document.getElementById('canales').style.display = 'none';
+    document.getElementById('videos').style.display = 'block';
+}
+
+function mostrarBuscarCanales() {
+    document.getElementById('search-container').style.display = 'block';
+    document.getElementById('canales').style.display = 'block';
+    document.getElementById('videos').style.display = 'none';
 }
