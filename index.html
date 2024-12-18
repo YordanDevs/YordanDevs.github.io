@@ -3,20 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VidView</title>
+    <title>VidView - Videos Gratis</title>
 </head>
 <body>
-    <h1>VidView</h1>
+    <h1>VidView - Videos Gratis</h1>
     <div id="videos"></div>
+    <div id="error" style="color: red;"></div> <!-- Para mostrar errores -->
 
     <script>
         async function obtenerVideos() {
             try {
-                const response = await fetch('https://api.vimeo.com/videos', {
-                    headers: {
-                        'Authorization': 'Bearer c24578caa0f7add22d5d5b2f42f194fc' // Reemplaza con tu Access Token
-                    }
-                });
+                // Usamos la API de Pixabay para obtener videos
+                const response = await fetch('https://pixabay.com/api/videos/?key=47725184-ec0c61bf8516b8747dc0830fd&per_page=5');
 
                 if (!response.ok) {
                     throw new Error('Error en la solicitud: ' + response.statusText);
@@ -25,17 +23,25 @@
                 const data = await response.json();
                 const videosDiv = document.getElementById('videos');
 
-                data.data.forEach(video => {
-                    const videoElement = document.createElement('iframe');
-                    videoElement.src = `https://player.vimeo.com/video/${video.id}`;
-                    videoElement.width = '300';
-                    videoElement.height = '400';
-                    videoElement.allow = 'autoplay; fullscreen'; // Permite autoplay y fullscreen
-                    videoElement.frameBorder = '0'; // Opcional: para eliminar el borde
-                    videosDiv.appendChild(videoElement);
-                });
+                // Verificamos si hay videos
+                if (data.hits && data.hits.length > 0) {
+                    data.hits.forEach(video => {
+                        const videoElement = document.createElement('div');
+                        videoElement.innerHTML = `
+                            <h3>${video.user}</h3>
+                            <video width="300" height="200" controls>
+                                <source src="${video.videos.small.url}" type="video/mp4">
+                                Tu navegador no soporta el elemento de video.
+                            </video>
+                        `;
+                        videosDiv.appendChild(videoElement);
+                    });
+                } else {
+                    document.getElementById('error').innerText = 'No se encontraron videos.';
+                }
             } catch (error) {
                 console.error('Error al obtener videos:', error);
+                document.getElementById('error').innerText = 'Error al cargar videos. Inténtalo más tarde.';
             }
         }
 
