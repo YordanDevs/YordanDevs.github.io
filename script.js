@@ -3,33 +3,45 @@ async function obtenerApiKey() {
     return response.text();
 }
 
-async function buscarCanal() {
+async function buscar() {
     const query = document.getElementById('channelSearch').value;
     const apiKey = await obtenerApiKey();
-    const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=channel&q=${query}&key=${apiKey}`;
+    const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${query}&key=${apiKey}&maxResults=10`;
 
     try {
         const response = await fetch(url);
         const data = await response.json();
         const canalesDiv = document.getElementById('canales');
+        const videosDiv = document.getElementById('videos');
         canalesDiv.innerHTML = '';
+        videosDiv.innerHTML = '';
 
         if (data.items && data.items.length > 0) {
-            data.items.forEach(canal => {
-                const canalElement = document.createElement('div');
-                canalElement.classList.add('canal-card');
-                canalElement.innerHTML = `
-                    <h3>${canal.snippet.title}</h3>
-                    <button onclick="mostrarVideosDeCanal('${canal.id.channelId}')">Ver Videos</button>
-                `;
-                canalesDiv.appendChild(canalElement);
+            data.items.forEach(item => {
+                if (item.id.kind === 'youtube#channel') {
+                    const canalElement = document.createElement('div');
+                    canalElement.classList.add('canal-card');
+                    canalElement.innerHTML = `
+                        <h3>${item.snippet.title}</h3>
+                        <button onclick="mostrarVideosDeCanal('${item.id.channelId}')">Ver Videos</button>
+                    `;
+                    canalesDiv.appendChild(canalElement);
+                } else if (item.id.kind === 'youtube#video') {
+                    const videoElement = document.createElement('div');
+                    videoElement.classList.add('video-card');
+                    videoElement.innerHTML = `
+                        <h3>${item.snippet.title}</h3>
+                        <iframe src="https://www.youtube.com/embed/${item.id.videoId}" allowfullscreen></iframe>
+                    `;
+                    videosDiv.appendChild(videoElement);
+                }
             });
         } else {
-            document.getElementById('error').innerText = 'No se encontraron canales.';
+            document.getElementById('error').innerText = 'No se encontraron resultados.';
         }
     } catch (error) {
-        console.error('Error al obtener canales:', error);
-        document.getElementById('error').innerText = 'Error al cargar canales. Inténtalo más tarde.';
+        console.error('Error al buscar:', error);
+        document.getElementById('error').innerText = 'Error al cargar resultados. Inténtalo más tarde.';
     }
 }
 
@@ -62,6 +74,31 @@ async function mostrarVideosDeCanal(canalId) {
     }
 }
 
+async function cargarVideosRecomendados() {
+    const apiKey = await obtenerApiKey();
+    const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&regionCode=ES&key=${apiKey}&maxResults=5`;
+
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        const videosDiv = document.getElementById('videos');
+        
+        if (data.items && data.items.length > 0) {
+            data.items.forEach(video => {
+                const videoElement = document.createElement('div');
+                videoElement.classList.add('video-card');
+                videoElement.innerHTML = `
+                    <h3>${video.snippet.title}</h3>
+                    <iframe src="https://www.youtube.com/embed/${video.id}" allowfullscreen></iframe>
+                `;
+                videosDiv.appendChild(videoElement);
+            });
+        }
+    } catch (error) {
+        console.error('Error al cargar videos recomendados:', error);
+    }
+}
+
 function toggleMenu() {
     const menu = document.getElementById('menu');
     if (menu.style.left === '0px') {
@@ -75,6 +112,7 @@ function mostrarVideos() {
     document.getElementById('search-container').style.display = 'block';
     document.getElementById('canales').style.display = 'none';
     document.getElementById('videos').style.display = 'block';
+    cargarVideosRecomendados();
 }
 
 function mostrarBuscarCanales() {
