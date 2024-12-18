@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Videos de Vimeo</title>
+</head>
+<body>
+    <h1>Videos de Vimeo</h1>
+    <div id="videos"></div>
+
+    <script>
+        async function obtenerVideos() {
+            const response = await fetch('URL_DE_TU_API'); // Reemplaza con la URL de tu API
+            const data = await response.json();
+            const videosDiv = document.getElementById('videos');
+
+            data.data.forEach(video => {
+                const videoElement = document.createElement('iframe');
+                videoElement.src = `https://player.vimeo.com/video/${video.id}`;
+                videoElement.width = '300';
+                videoElement.height = '400';
+                videosDiv.appendChild(videoElement);
+            });
+        }
+
+        obtenerVideos();
+    </script>
+</body>
+</html>
