@@ -7,71 +7,41 @@ body {
     padding: 0;
     background-color: #121212; /* Fondo oscuro */
     color: #e0e0e0; /* Texto claro */
-}
-
-/* Estilo del menú */
-.menu-btn {
-    cursor: pointer;
-    background-color: #1e1e1e; /* Fondo del botón */
-    color: #ffffff; /* Texto blanco */
-    padding: 10px;
-    border: none;
-    font-size: 18px;
-}
-
-.menu {
-    display: none; /* Ocultar el menú por defecto */
-    background-color: #1e1e1e; /* Fondo del menú */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-    position: absolute;
-    top: 50px;
-    right: 10px;
-    border-radius: 4px;
-    z-index: 1;
-}
-
-.menu button {
-    background: none;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    width: 100%;
-    text-align: left;
-    color: #e0e0e0; /* Texto claro */
-}
-
-.menu button:hover {
-    background-color: #333333; /* Fondo al pasar el mouse */
+    display: flex;
+    flex-direction: column;
 }
 
 /* Estilo del encabezado */
-h1 {
-    text-align: center;
-    margin: 20px 0;
-    color: #ffffff; /* Título blanco */
+.header {
+    background-color: #1e1e1e; /* Fondo del encabezado */
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
-/* Estilo del contenedor de búsqueda */
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ff0000; /* Color del logo */
+}
+
 .search-container {
     display: flex;
-    justify-content: center;
-    margin: 20px;
 }
 
 .search-container input {
     padding: 10px;
-    font-size: 16px;
     border: 1px solid #444; /* Borde oscuro */
     border-radius: 4px;
-    width: 300px;
-    background-color: #1e1e1e; /* Fondo oscuro */
+    background-color: #1e1e1e; /* Fondo oscuro de la búsqueda */
     color: #e0e0e0; /* Texto claro */
 }
 
 .search-container button {
     padding: 10px 15px;
-    margin-left: 10px;
-    background-color: #6200ea; /* Color del botón */
+    margin-left: 5px;
+    background-color: #ff0000; /* Color del botón de búsqueda */
     color: white;
     border: none;
     border-radius: 4px;
@@ -79,16 +49,72 @@ h1 {
 }
 
 .search-container button:hover {
-    background-color: #3700b3; /* Color al pasar el mouse */
+    background-color: #cc0000; /* Color al pasar el mouse */
+}
+
+/* Estilo de la barra lateral */
+.sidebar {
+    width: 200px;
+    background-color: #1e1e1e; /* Fondo de la barra lateral */
+    padding: 10px;
+    display: none; /* Ocultar por defecto */
+    position: absolute;
+    top: 60px;
+    right: 10px;
+    border-radius: 4px;
+}
+
+.sidebar button {
+    background: none;
+    border: none;
+    color: #e0e0e0; /* Texto claro */
+    padding: 10px;
+    text-align: left;
+    cursor: pointer;
+    width: 100%;
+}
+
+.sidebar button:hover {
+    background-color: #333333; /* Fondo al pasar el mouse */
+}
+
+/* Estilo del contenido principal */
+.content {
+    padding: 20px;
+    flex-grow: 1;
 }
 
 /* Estilo de las secciones de canales y videos */
-.canales, .videos {
-    margin: 20px;
+.canales, .videos, .shorts {
+    margin: 20px 0;
     padding: 10px;
     background-color: #1e1e1e; /* Fondo oscuro */
     border-radius: 4px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* Estilo de los Shorts */
+.shorts-container {
+    display: flex;
+    align-items: center;
+}
+
+.shorts-view {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    overflow: hidden;
+}
+
+.short-card {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    border-radius: 4px;
+    text-align: center;
+    min-width: 300px; /* Ancho mínimo para los Shorts */
 }
 
 /* Estilo del mensaje de error */
