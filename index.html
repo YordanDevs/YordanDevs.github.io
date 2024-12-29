@@ -1,25 +1,18 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Servidor de Juegos</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <h1>Consulta de Servidores de Juegos</h1>
-    <form id="serverForm">
-        <label for="ip">Dirección IP:</label>
-        <input type="text" id="ip" required>
-        
-        <label for="port">Puerto:</label>
-        <input type="number" id="port" required>
-        
-        <button type="submit">Consultar</button>
-    </form>
-    
-    <div id="result"></div>
-
-    <script src="script.js"></script>
-</body>
+<!DOCTYPE html>  
+<html lang="es">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="stylesheet" href="style.css">  
+    <title>Estado del Servidor de Minecraft</title>  
+</head>  
+<body>  
+    <div class="container">  
+        <h1>Estado del Servidor de Minecraft</h1>  
+        <input type="text" id="serverIP" placeholder="Ingresa la IP del servidor">  
+        <button id="checkBtn">Verificar</button>  
+        <div id="result"></div>  
+    </div>  
+    <script src="script.js"></script>  
+</body>  
 </html>
