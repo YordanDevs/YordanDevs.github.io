@@ -1,13 +1,11 @@
 body {  
-    font-family: 'Minecraft', Arial, sans-serif; /* Asegúrate de tener una fuente similar a Minecraft */  
+    font-family: 'Press Start 2P', cursive; /* Fuente estilo Minecraft */  
     background-color: #87CEEB; /* Color de fondo que recuerda al cielo */  
     display: flex;  
     justify-content: center;  
     align-items: center;  
     height: 100vh;  
     margin: 0;  
-    background-image: url('https://example.com/path/to/your/background-image.jpg'); /* Fondo opcional */  
-    background-size: cover;  
 }  
 
 .container {  
