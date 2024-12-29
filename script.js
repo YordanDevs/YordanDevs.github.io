@@ -1,7 +1,13 @@
 document.getElementById('checkBtn').addEventListener('click', function() {  
-    const serverIP = document.getElementById('serverIP').value;  
+    const serverInput = document.getElementById('serverIP').value;  
+    const [ip, port] = serverInput.split(':');  
 
-    fetch(`https://api.mcsrvstat.us/2/${serverIP}`)  
+    if (!ip || !port) {  
+        document.getElementById('result').innerHTML = `<h2>Por favor, ingresa la IP y el puerto en el formato IP:Puerto</h2>`;  
+        return;  
+    }  
+
+    fetch(`https://api.mcsrvstat.us/2/${ip}:${port}`)  
         .then(response => response.json())  
         .then(data => {  
             const resultDiv = document.getElementById('result');  
@@ -11,7 +17,7 @@ document.getElementById('checkBtn').addEventListener('click', function() {
                     <p>IP: ${data.ip}</p>  
                     <p>Puerto: ${data.port}</p>  
                     <p>Jugadores Actuales: ${data.players.online}/${data.players.max}</p>  
-                    <p>Version: ${data.version}</p>  
+                    <p>Versión: ${data.version}</p>  
                 `;  
             } else {  
                 resultDiv.innerHTML = `<h2>Estado: Inactivo</h2>`;  
